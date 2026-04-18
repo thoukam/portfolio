@@ -12,18 +12,14 @@ import Footer from './components/Footer';
 import ContactForm from './components/ContactForm';
 
 export default function App() {
-  // État pour gérer l’ouverture de la modale contact
   const [showContactForm, setShowContactForm] = useState(false);
 
-  // Fonction centralisée pour ouvrir la modale
   const handleContactClick = () => setShowContactForm(true);
-
-  // Fonction pour fermer la modale
   const handleCloseContact = () => setShowContactForm(false);
 
   return (
     <div className="relative min-h-screen">
-      <FuturisticBackground/>
+      <FuturisticBackground />
       <Navbar onContactClick={handleContactClick} />
       <Hero onContactClick={handleContactClick} />
       <About />
