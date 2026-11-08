@@ -1,35 +1,35 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import Skills from './components/Skills';
+import Quote from './components/Quote';
+import Expertise from './components/Expertise';
 import Projects from './components/Projects';
-import Experience from './components/Experience';
-import DistinctionTeaser from './components/DistinctionTeaser';
-import Distinction from './components/Distinction';
-import FuturisticBackground from './components/FuturisticBackground';
+import Journey from './components/Journey';
+import Background from './components/Background';
 import Footer from './components/Footer';
 import ContactForm from './components/ContactForm';
 
 export default function App() {
   const [showContactForm, setShowContactForm] = useState(false);
 
-  const handleContactClick = () => setShowContactForm(true);
-  const handleCloseContact = () => setShowContactForm(false);
+  const openContact = useCallback(() => setShowContactForm(true), []);
+  const closeContact = useCallback(() => setShowContactForm(false), []);
 
   return (
-    <div className="relative min-h-screen">
-      <FuturisticBackground />
-      <Navbar onContactClick={handleContactClick} />
-      <Hero onContactClick={handleContactClick} />
-      <About />
-      <DistinctionTeaser onContactClick={handleContactClick} />
-      <Skills />
-      <Projects />
-      <Experience />
-      <Distinction />
-      <Footer onContactClick={handleContactClick} />
-      <ContactForm show={showContactForm} onClose={handleCloseContact} />
+    <div className="relative min-h-screen overflow-x-hidden">
+      <Background />
+      <Navbar onContactClick={openContact} />
+      <main className="relative z-10">
+        <Hero onContactClick={openContact} />
+        <Quote />
+        <About />
+        <Expertise />
+        <Projects />
+        <Journey />
+      </main>
+      <Footer onContactClick={openContact} />
+      <ContactForm show={showContactForm} onClose={closeContact} />
     </div>
   );
 }

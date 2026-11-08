@@ -1,39 +1,33 @@
-import portrait from "../assets/portrait-thoukam.jpg"; // Adapte le nom au tien !
+import portrait from "../assets/portrait-thoukam.jpg";
+import { useLang } from "../i18n";
+import { contact } from "../content";
+import SectionHeader from "./SectionHeader";
 
 export default function About() {
+  const { t } = useLang();
+  const a = t.about;
+
   return (
-    <section
-      id="about"
-      className="bg-gradient-to-br from-gray-900/30 via-gray-800 to-cyan-950 bg-opacity-30 text-white py-24 px-4 flex flex-col items-center"
-    >
-      <img
-        src={portrait}
-        alt="Portrait Yves Thoukam Thotchum"
-        className="w-36 h-36 rounded-full mb-6 shadow-lg border-4 border-cyan-500 object-cover"
-      />
-      <h2 className="text-3xl font-extrabold mb-3 tracking-tight">
-        À propos de moi
-      </h2>
-      <div className="mb-5 text-lg font-medium text-cyan-400">
-        🚀 Explorer, connecter, innover&nbsp;: telle est ma mission.
+    <section id="about" className="relative py-16 md:py-20">
+      <div className="section-shell grid items-start gap-14 lg:grid-cols-[0.75fr_1.25fr]">
+        <figure className="corners mx-auto w-full max-w-xs lg:sticky lg:top-28">
+          <img
+            src={portrait}
+            alt={contact.name}
+            className="aspect-[4/5] w-full rounded-sm object-cover grayscale-[35%]"
+          />
+          <figcaption className="mt-3 font-mono text-[11px] text-muted">{contact.name}</figcaption>
+        </figure>
+
+        <div>
+          <SectionHeader index="01" kicker={a.kicker} title={a.title} />
+          {a.paragraphs.map((p) => (
+            <p key={p.slice(0, 24)} className="mt-5 max-w-2xl text-lg leading-relaxed text-paper/80">
+              {p}
+            </p>
+          ))}
+        </div>
       </div>
-      <p className="text-lg text-gray-200 max-w-2xl text-center leading-relaxed">
-        Étudiant en 3<sup>e</sup> année Ingénieur à <span className="text-cyan-300 font-semibold">Polytech Dijon</span>, je me passionne pour&nbsp;
-        <span className="text-cyan-400 font-semibold">
-          {" "}
-          la robotique intelligente, l’IoT, les systèmes embarqués
-        </span>
-        , la navigation GNSS, et tout ce qui fait vibrer l’industrie 4.0.
-        <br /><br />
-        Ce que j’aime par-dessus tout&nbsp;? Concevoir des solutions de bout en bout, du code aux capteurs, piloter et superviser des équipements à distance, automatiser, diagnostiquer, rendre la technologie accessible et intelligente.
-        <br /><br />
-        Polyvalent, curieux et passionné, j’aime explorer les frontières entre software, hardware et supervision. J’apprends vite, je m’adapte, je prends plaisir à relever des défis dans des environnements en perpétuelle évolution.
-        <br /><br />
-        <span className="text-cyan-300 font-semibold">
-          En quête d’un contrat de professionnalisation pour ma dernière année,
-        </span>{" "}
-        je suis prêt à mettre mon énergie et ma créativité au service de projets technologiques ambitieux&nbsp;!
-      </p>
     </section>
   );
 }

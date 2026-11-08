@@ -1,48 +1,98 @@
 import { useState } from "react";
+import { useLang } from "../i18n";
+import { contact } from "../content";
+
+function LangSwitch() {
+  const { lang, setLang } = useLang();
+  return (
+    <div className="inline-flex rounded-sm border border-white/15 font-mono text-xs">
+      {["fr", "en"].map((code) => (
+        <button
+          key={code}
+          type="button"
+          onClick={() => setLang(code)}
+          aria-pressed={lang === code}
+          className={`px-2.5 py-1 uppercase transition ${
+            lang === code ? "bg-paper text-ink-950" : "text-muted hover:text-paper"
+          }`}
+        >
+          {code}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function Navbar({ onContactClick }) {
   const [open, setOpen] = useState(false);
+  const { t } = useLang();
+
+  const navItems = [
+    { label: t.nav.about, href: "#about" },
+    { label: t.nav.expertise, href: "#expertise" },
+    { label: t.nav.projects, href: "#projects" },
+    { label: t.nav.journey, href: "#journey" },
+    { label: t.nav.contact, href: "#contact" },
+  ];
 
   return (
-    <nav className="fixed w-full top-0 left-0 bg-black bg-opacity-80 text-white flex items-center justify-between px-6 py-4 z-50 shadow-md border-b border-cyan-800">
-        <a
-        href="#hero"
-        className="font-bold text-xl tracking-tight hover:text-cyan-400 transition-colors cursor-pointer">
-        YVES THOUKAM THOTCHUM
-      </a>
-
-      {/* Desktop links */}
-      <div className="space-x-6 hidden md:flex">
-        <a href="#about" className="hover:text-cyan-400">À propos</a>
-        <a href="#skills" className="hover:text-cyan-400">Compétences</a>
-        <a href="#projects" className="hover:text-cyan-400">Projets</a>
-        <a href="#experience" className="hover:text-cyan-400">Expérience</a>
-        <a href="#contact" className="hover:text-cyan-400">Contact</a>
-        <a href="#contact" className="ml-4 bg-cyan-500 text-black px-4 py-2 rounded-xl font-medium hover:bg-cyan-400 transition" onClick={e => { e.preventDefault(); onContactClick(); }}>
-          Me contacter
+    <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-ink-950/80 backdrop-blur-md">
+      <div className="section-shell flex items-center justify-between py-4">
+        <a href="#hero" className="flex min-w-0 items-center gap-2.5 font-display text-[13px] font-bold uppercase leading-tight tracking-[0.04em] text-paper sm:gap-3 sm:text-base sm:tracking-[0.08em]">
+          <img
+            src="/images/avatar.jpg"
+            alt=""
+            className="h-9 w-9 shrink-0 rounded-full border-2 border-accent object-cover"
+          />
+          <span>{contact.name}</span>
         </a>
+
+        <div className="hidden items-center gap-7 md:flex">
+          {navItems.map((item, i) => (
+            <a key={item.href} href={item.href} className="text-sm text-muted transition hover:text-paper">
+              <span className="mr-1 font-mono text-[10px] text-accent">0{i + 1}</span>
+              {item.label}
+            </a>
+          ))}
+          <LangSwitch />
+        </div>
+
+        <div className="flex items-center gap-4 md:hidden">
+          <LangSwitch />
+          <button
+            className="flex flex-col items-center justify-center p-1"
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+            aria-expanded={open}
+            type="button"
+          >
+            <span className={`block h-0.5 w-6 bg-paper transition-all ${open ? "translate-y-2 rotate-45" : ""}`} />
+            <span className={`my-1.5 block h-0.5 w-6 bg-paper transition-all ${open ? "opacity-0" : ""}`} />
+            <span className={`block h-0.5 w-6 bg-paper transition-all ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+          </button>
+        </div>
       </div>
-      {/* Burger icon for mobile */}
-      <button
-        className="md:hidden flex flex-col justify-center items-center"
-        onClick={() => setOpen(!open)}
-        aria-label="Menu"
-      >
-        <span className={`block w-7 h-1 bg-white rounded transition-all duration-300 ${open ? "rotate-45 translate-y-2" : ""}`}></span>
-        <span className={`block w-7 h-1 bg-white rounded mt-1 mb-1 transition-all duration-300 ${open ? "opacity-0" : ""}`}></span>
-        <span className={`block w-7 h-1 bg-white rounded transition-all duration-300 ${open ? "-rotate-45 -translate-y-2" : ""}`}></span>
-      </button>
-      {/* Mobile menu */}
+
       {open && (
-        <div className="absolute top-full left-0 w-full bg-black bg-opacity-95 flex flex-col items-center space-y-6 py-6 md:hidden transition-all z-50">
-          <a href="#about" className="hover:text-cyan-400" onClick={() => setOpen(false)}>À propos</a>
-          <a href="#skills" className="hover:text-cyan-400" onClick={() => setOpen(false)}>Compétences</a>
-          <a href="#projects" className="hover:text-cyan-400" onClick={() => setOpen(false)}>Projets</a>
-          <a href="#experience" className="hover:text-cyan-400" onClick={() => setOpen(false)}>Expérience</a>
-          <a href="#contact" className="hover:text-cyan-400" onClick={() => setOpen(false)}>Contact</a>
-          <a href="#contact" className="bg-cyan-500 text-black px-4 py-2 rounded-xl font-medium hover:bg-cyan-400 transition" onClick={e => { e.preventDefault(); onContactClick(); }}>
-            Me contacter
-          </a>
+        <div className="border-t border-white/10 bg-ink-950 md:hidden">
+          <div className="section-shell flex flex-col gap-4 py-5">
+            {navItems.map((item, i) => (
+              <a key={item.href} href={item.href} className="text-paper" onClick={() => setOpen(false)}>
+                <span className="mr-2 font-mono text-xs text-accent">0{i + 1}</span>
+                {item.label}
+              </a>
+            ))}
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                onContactClick();
+              }}
+              className="btn-primary mt-2 w-fit"
+            >
+              {t.nav.cta}
+            </button>
+          </div>
         </div>
       )}
     </nav>

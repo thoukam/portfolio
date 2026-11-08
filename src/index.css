@@ -2,6 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+  /* Couleur d'accent du site (R G B) */
+  --accent: 34 211 238;
+  --accent-soft: 103 232 249;
+}
+
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  @apply bg-ink-950 font-sans text-paper antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+@layer components {
+  .section-shell {
+    @apply relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-bold tracking-tight text-paper md:text-5xl;
+  }
+
+  .panel {
+    @apply rounded-sm border border-white/10 bg-ink-900/80;
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded-sm border border-white/10 px-2 py-0.5 font-mono text-xs text-muted;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-accent px-5 py-3 font-semibold text-ink-950 transition hover:bg-accent-soft;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm border border-white/20 px-5 py-3 font-semibold text-paper transition hover:border-accent hover:text-accent;
+  }
+
+  /* Repères d'angle façon plan technique */
+  .corners {
+    position: relative;
+  }
+  .corners::before,
+  .corners::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: rgb(var(--accent));
+    pointer-events: none;
+  }
+  .corners::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+  }
+  .corners::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+  }
+}
+
+@keyframes blink {
+  50% { opacity: 0.25; }
+}
+.blink {
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .blink { animation: none; }
+}
+
+::selection {
+  background: rgb(var(--accent) / 0.35);
+  color: white;
 }

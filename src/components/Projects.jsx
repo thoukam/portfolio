@@ -1,111 +1,147 @@
+import { useState } from "react";
+import { useLang } from "../i18n";
+import { projectsBase } from "../content";
+import SectionHeader from "./SectionHeader";
+import RoadSegIllustration from "./RoadSegIllustration";
+import { useReducedMotion } from "../useReducedMotion";
+
+const FILTERS = ["all", "arm", "autonomy", "perception", "tooling", "other"];
+
+// Liens vidéo sous les fiches (ex. "Cycle complet", "Tri des pièces").
+// Masqués pour l'instant : passer à true pour les réafficher.
+const SHOW_VIDEO_LINKS = false;
+
 export default function Projects() {
-  const projects = [
-    {
-      title: "Automatisation d’assemblage avec bras robotique Doosan",
-      location: "Le Creusot, France",
-      date: "Janv. 2024 – En cours",
-      description:
-        "Projet de commande de bras robotique en partenariat avec Horizon Télécom pour l’automatisation de tâches répétitives et optimisées pour l'industrie.",
-      objectifs: "Développement d’un système de commande pour vissage et câblage.",
-      technos: ["ROS", "OpenCV", "Doosan", "Python"],
-      image: "/images/projects/doosan.png", // adapte le chemin selon ton projet
-      github: "https://github.com/tonprofil/nom-du-repo",
-    },
-    {
-      title: "Système de Supervision Industrielle avec Raspberry Pi 4",
-      location: "Le Creusot, France",
-      date: "Nov. 2024 – Mars 2025",
-      description:
-        "Développement d’un système de collecte, stockage et visualisation des données en temps réel (température, pression...) via un Raspberry Pi 4 sous Linux.",
-      objectifs: "Détection d’anomalies, alertes, sécurisation des communications.",
-      technos: ["Raspberry Pi 4", "Linux", "Python", "Sqlite3", "Django", "MQTT", "WebSocket"],
-      image: "/images/projects/supervision-industrielle.jpg",
-      github: "https://github.com/tonprofil/nom-du-repo2",
-    },
-    {
-      title: "Système de vision stéréo – Reconstruction 3D",
-      location: "Le Creusot, France",
-      date: "Fév. 2025 – Avril 2025",
-      description:
-        "Application multiplateforme pour la capture et traitement d’images stéréo à partir de deux caméras USB, calibration, rectification et export du nuage de points 3D.",
-      objectifs: "Logiciel avec interface graphique, packaging multi-OS.",
-      technos: ["Python", "PyQt6", "OpenCV", "Open3D", "Git", "PyInstaller"],
-      image: "/images/projects/Stereo-Vision.png",
-      github: "https://github.com/tonprofil/nom-du-repo3",
-    },
-    {
-      title: "Reconstruction 3D d'un Objet à partir d'une Image",
-      location: "Le Creusot, France",
-      date: "Oct. 2024 – Déc. 2024",
-      description:
-        "Génération d’un modèle 3D à partir d'une image 2D sans IA, création de maillage, export STL pour impression 3D.",
-      technos: ["Python", "PyVista", "SciPy", "Trimesh"],
-      image: "/images/projects/maillage3D.png",
-      github: "https://github.com/tonprofil/nom-du-repo4",
-    },
-    {
-      title: "Tri automatisé des déchets avec robot NED2 et reconnaissance vocale",
-      location: "Le Creusot, France",
-      date: "Janv. 2024 – Mars 2024",
-      description:
-        "Développement d’un système de tri basé sur la reconnaissance vocale et la vision par ordinateur. Détection forme/couleur avec OpenCV, pilotage via NED2.",
-      technos: ["Python", "OpenCV", "NED2", "Reconnaissance vocale"],
-      image: "/images/projects/Niryo-Ned2.jpeg",
-      github: "https://github.com/tonprofil/nom-du-repo5",
-    },
-    // Ajoute d'autres projets si besoin
-  ];
+  const { t } = useLang();
+  const p = t.projects;
+  const [filter, setFilter] = useState("all");
+  const reduced = useReducedMotion();
+
+  const visible = projectsBase.filter((proj) => filter === "all" || proj.domain === filter);
 
   return (
-    <section id="projects" className="bg-gray-900 text-white py-20 px-4 flex flex-col items-center">
-      <h2 className="text-3xl font-bold mb-10">Projets Académiques</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 max-w-6xl w-full">
-        {projects.map((proj, idx) => (
-          <div key={idx} className="bg-black/80 rounded-2xl p-6 shadow-lg border border-gray-800 flex flex-col gap-4">
-            {/* Image du projet */}
-            <div className="aspect-video overflow-hidden rounded-lg mb-2 bg-gray-800 flex items-center justify-center">
-              <img
-                src={proj.image}
-                alt={proj.title}
-                className="w-full h-full object-cover object-center"
-                style={{ minHeight: "180px", maxHeight: "240px" }}
-                loading="lazy"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <h3 className="text-xl font-semibold">{proj.title}</h3>
-              <span className="text-cyan-400 text-sm mb-1">
-                {proj.location} — <span className="italic">{proj.date}</span>
-              </span>
-              <p className="text-gray-300">{proj.description}</p>
-              {proj.objectifs && (
-                <p className="text-gray-400 text-sm mt-1">
-                  <strong>Objectifs : </strong>
-                  {proj.objectifs}
-                </p>
-              )}
-            </div>
-            {/* Badges Techno */}
-            <div className="flex flex-wrap gap-2 mt-2">
-              {proj.technos.map((tech, tid) => (
-                <span key={tid} className="bg-cyan-800/70 rounded px-3 py-1 font-medium text-base m-1">
-                  {tech}
-                </span>
-              ))}
-            </div>
-            {/* Lien GitHub */}
-            {proj.github && (
-              <a
-                href={proj.github}
-                className="text-cyan-400 hover:underline w-fit mt-2"
-                target="_blank"
-                rel="noopener noreferrer"
+    <section id="projects" className="relative py-16 md:py-20">
+      <div className="section-shell">
+        <SectionHeader index="03" kicker={p.kicker} title={p.title}>
+          <p className="mt-5 text-lg leading-relaxed text-muted">{p.intro}</p>
+        </SectionHeader>
+
+        <div className="mt-8 flex flex-wrap gap-2 font-mono text-xs">
+          {FILTERS.map((key) => {
+            const count = key === "all" ? projectsBase.length : projectsBase.filter((x) => x.domain === key).length;
+            return (
+              <button
+                key={key}
+                type="button"
+                aria-pressed={filter === key}
+                onClick={() => setFilter(key)}
+                className={`rounded-sm border px-3 py-1.5 transition ${
+                  filter === key
+                    ? "border-accent bg-accent text-ink-950"
+                    : "border-white/15 text-muted hover:border-paper/50 hover:text-paper"
+                }`}
               >
-                Voir sur GitHub
-              </a>
-            )}
-          </div>
-        ))}
+                {p.filters[key]} <span className="opacity-60">({count})</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {visible.map((proj) => {
+            const text = p.items[proj.id];
+            const num = String(projectsBase.indexOf(proj) + 1).padStart(2, "0");
+            return (
+              <article key={proj.id} className="panel group flex h-full flex-col overflow-hidden transition hover:border-accent/50">
+                <div className="relative aspect-video overflow-hidden border-b border-white/10 bg-ink-800">
+                  {proj.video ? (
+                    <video
+                      src={proj.video}
+                      poster={proj.image}
+                      autoPlay={!reduced}
+                      controls={reduced}
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      aria-label={text.title}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : proj.illustration === "roadSeg" ? (
+                    <>
+                      <RoadSegIllustration labels={p.roadSeg} />
+                      <span className="absolute right-2 top-2 rounded-sm bg-ink-950/80 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted">
+                        {p.schematic}
+                      </span>
+                    </>
+                  ) : proj.image ? (
+                    <img
+                      src={proj.image}
+                      alt={text.title}
+                      className="h-full w-full object-cover opacity-90 transition duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div
+                      className="flex h-full w-full items-end bg-gradient-to-br from-ink-800 to-ink-900 p-5"
+                    >
+                      <p className="font-mono text-sm text-accent">{proj.stack.slice(0, 3).join(" / ")}</p>
+                    </div>
+                  )}
+                  <span className="absolute left-0 top-0 bg-ink-950/90 px-2.5 py-1 font-mono text-[11px] text-paper">
+                    P-{num} · <span className="text-accent">{p.filters[proj.domain]}</span>
+                  </span>
+                </div>
+
+                <div className="flex flex-1 flex-col gap-3 p-6">
+                  <p className="font-mono text-[11px] text-muted">
+                    {text.context} · {text.date}
+                  </p>
+                  <h3 className="font-display text-xl font-bold leading-snug text-paper">{text.title}</h3>
+                  <p className="text-sm leading-relaxed text-paper/75">{text.summary}</p>
+                  {text.goal && (
+                    <p className="text-sm text-muted">
+                      <span className="font-semibold text-paper/90">{p.goalLabel} :</span> {text.goal}
+                    </p>
+                  )}
+
+                  <div className="mt-auto flex flex-wrap gap-1.5 pt-3">
+                    {proj.stack.map((tech) => (
+                      <span key={tech} className="tag">{tech}</span>
+                    ))}
+                  </div>
+
+                  {SHOW_VIDEO_LINKS && proj.links && (
+                    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
+                      {proj.links.map((l) => (
+                        <a
+                          key={l.key}
+                          href={l.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center font-mono text-xs text-accent hover:underline"
+                        >
+                          ▶ {p.links[l.key]}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+
+                  {proj.github && (
+                    <a
+                      href={proj.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-flex w-fit items-center font-mono text-xs text-accent hover:underline"
+                    >
+                      {p.repo} ↗
+                    </a>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
