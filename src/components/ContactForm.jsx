@@ -1,79 +1,51 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { useLang } from "../i18n";
 
 export default function ContactForm({ show, onClose }) {
-  // Empêche le scroll du fond quand la modale est ouverte
+  const { t } = useLang();
+  const f = t.form;
+
+  // Bloque le scroll du fond et permet de fermer avec Échap
   useEffect(() => {
-    if (show) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
-    return () => { document.body.style.overflow = ""; };
-  }, [show]);
+    if (!show) return undefined;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [show, onClose]);
 
-  // Fermer la modale et remonter la page
-  const handleClose = () => {
-    onClose();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Si pas affiché, ne rend rien
   if (!show) return null;
 
+  const field = "rounded-sm border border-white/15 bg-ink-950 px-4 py-2.5 text-paper placeholder:text-muted focus:border-accent focus:outline-none";
+
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center"
-      onClick={handleClose}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4" onClick={onClose}>
       <div
-        className="bg-gray-900 rounded-xl p-8 max-w-md w-full relative shadow-2xl border border-cyan-600"
-        onClick={e => e.stopPropagation()} // Ne ferme pas si on clique dans la modale
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-title"
+        className="corners relative w-full max-w-md rounded-sm border border-white/10 bg-ink-900 p-8 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-2 right-2 text-3xl text-cyan-400 bg-black bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center hover:bg-cyan-500 hover:text-black transition z-10 shadow-lg border border-cyan-400"
-          onClick={handleClose}
-          aria-label="Fermer"
           type="button"
-          tabIndex={0}
+          onClick={onClose}
+          aria-label={f.close}
+          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full text-2xl text-muted transition hover:bg-white/10 hover:text-paper"
         >
           &times;
         </button>
-        <h3 className="text-2xl font-bold mb-4 text-center">Me contacter</h3>
-        <form
-          action="https://formspree.io/f/xpwrbzdn"
-          method="POST"
-          className="flex flex-col gap-4"
-        >
-          <input
-            type="text"
-            name="name"
-            placeholder="Votre nom"
-            className="px-4 py-2 rounded bg-black text-white border border-gray-700"
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Votre email"
-            className="px-4 py-2 rounded bg-black text-white border border-gray-700"
-            required
-          />
-          <input
-            type="text"
-            name="subject"
-            placeholder="Objet du message"
-            className="px-4 py-2 rounded bg-black text-white border border-gray-700"
-            required
-          />
-          <textarea
-            name="message"
-            rows={4}
-            placeholder="Votre message"
-            className="px-4 py-2 rounded bg-black text-white border border-gray-700"
-            required
-          />
-          <button
-            type="submit"
-            className="bg-cyan-500 text-black rounded-xl px-4 py-2 font-medium hover:bg-cyan-400 transition"
-          >
-            Envoyer
+        <h3 id="contact-title" className="mb-6 font-display text-2xl font-bold">{f.title}</h3>
+        <form action="https://formspree.io/f/xpwrbzdn" method="POST" className="flex flex-col gap-4">
+          <input type="text" name="name" placeholder={f.name} aria-label={f.name} className={field} required />
+          <input type="email" name="email" placeholder={f.email} aria-label={f.email} className={field} required />
+          <input type="text" name="subject" placeholder={f.subject} aria-label={f.subject} className={field} required />
+          <textarea name="message" rows={5} placeholder={f.message} aria-label={f.message} className={field} required />
+          <button type="submit" className="btn-primary">
+            {f.send}
           </button>
         </form>
       </div>
