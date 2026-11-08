@@ -84,7 +84,7 @@ const projectsBase = [
 
 const fr = {
   meta: {
-    title: "Yves Thoukam | Développeur logiciel robotique",
+    title: "Yves Thoukam Thotchum | Développeur logiciel robotique",
   },
   nav: {
     about: "À propos",
@@ -318,7 +318,7 @@ const fr = {
 
 const en = {
   meta: {
-    title: "Yves Thoukam | Robotics Software Developer",
+    title: "Yves Thoukam Thotchum | Robotics Software Developer",
   },
   nav: {
     about: "About",
