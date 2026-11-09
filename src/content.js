@@ -250,6 +250,7 @@ const fr = {
         title: "Membre et contributeur open source ROS 2",
         org: "MA64 Robotics",
         date: "2025 - aujourd’hui",
+        logos: ["ma64"],
         text: "Communauté de passionnés de robotique et d’IA qui développe des projets open source sous ROS 2 : Robot Indoor, un robot mobile d’intérieur, et Faucon, un robot mobile et un drone pour l’agriculture. J’y participe à l’intégration de fonctionnalités de SLAM, de navigation, d’exploration et de supervision.",
         repos: [
           { label: "Robot Indoor", href: "https://github.com/themasterofarts/Robot_indoor" },
@@ -297,12 +298,16 @@ const fr = {
       },
     ],
   },
+  logos: { caption: "Écoles, entreprises et association" },
   contact: {
     kicker: "Contact",
     title: "Me contacter.",
     text: "Pour une opportunité ou une question sur un de mes projets, le plus simple est de m’écrire par email.",
     cta: "M’écrire",
     location: "Région lyonnaise, France",
+    phoneLabel: "Téléphone",
+    mapTitle: "Carte de la région lyonnaise",
+    ket: { state: "|ψ⟩ = α|robotique⟩ + β|physique⟩", hint: "Un clin d’œil à mes études de physique" },
     rights: "Tous droits réservés.",
   },
   form: {
@@ -484,6 +489,7 @@ const en = {
         title: "Member and open-source ROS 2 contributor",
         org: "MA64 Robotics",
         date: "2025 - present",
+        logos: ["ma64"],
         text: "A community of robotics and AI enthusiasts building open-source ROS 2 projects: Robot Indoor, an indoor mobile robot, and Faucon, a mobile robot and drone for agriculture. I help integrate SLAM, navigation, exploration and supervision features.",
         repos: [
           { label: "Robot Indoor", href: "https://github.com/themasterofarts/Robot_indoor" },
@@ -531,12 +537,16 @@ const en = {
       },
     ],
   },
+  logos: { caption: "Schools, companies and association" },
   contact: {
     kicker: "Contact",
     title: "Get in touch.",
     text: "For an opportunity or a question about one of my projects, email is the easiest way to reach me.",
     cta: "Write to me",
     location: "Lyon area, France",
+    phoneLabel: "Phone",
+    mapTitle: "Map of the Lyon area",
+    ket: { state: "|ψ⟩ = α|robotics⟩ + β|physics⟩", hint: "A nod to my physics studies" },
     rights: "All rights reserved.",
   },
   form: {

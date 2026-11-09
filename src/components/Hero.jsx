@@ -1,5 +1,4 @@
 import { useLang } from "../i18n";
-import { contact } from "../content";
 import RobotArm from "./RobotArm";
 
 export default function Hero({ onContactClick }) {
@@ -14,8 +13,7 @@ export default function Hero({ onContactClick }) {
             <span className="blink inline-block h-2 w-2 rounded-full bg-accent" />
             {h.status}
           </p>
-          <p className="mt-8 font-display text-xl font-medium text-paper/80">{contact.name}</p>
-          <h1 className="mt-2 font-display text-4xl font-bold leading-[1.05] tracking-tight text-paper sm:text-5xl xl:text-[3.4rem]">
+          <h1 className="mt-8 font-display text-4xl font-bold leading-[1.05] tracking-tight text-paper sm:text-5xl xl:text-[3.4rem]">
             {h.role}
             <span className="mt-1 block text-accent">{h.roleAccent}</span>
           </h1>

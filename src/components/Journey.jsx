@@ -3,12 +3,13 @@ import SectionHeader from "./SectionHeader";
 import atgtLogo from "../assets/atgt.png";
 import dimorphLogo from "../assets/logo-dimorph.png";
 import exxactLogo from "../assets/exxact-logo.png";
+import ma64Logo from "../assets/logos/ma64.png";
 import ws1 from "../assets/worldskills1.jpg";
 import ws2 from "../assets/worldskills2.jpg";
 import ws3 from "../assets/worldskills3.jpg";
 import ws4 from "../assets/worldskills4.jpg";
 
-const LOGOS = { atgt: atgtLogo, dimorph: dimorphLogo, exxact: exxactLogo };
+const LOGOS = { atgt: atgtLogo, dimorph: dimorphLogo, exxact: exxactLogo, ma64: ma64Logo };
 const PHOTOS = [ws1, ws2, ws3, ws4];
 
 const TYPE_COLORS = {
@@ -33,6 +34,18 @@ export default function Journey() {
               <div className="font-mono text-xs">
                 <p className={`uppercase tracking-[0.16em] ${TYPE_COLORS[item.type]}`}>{j.types[item.type]}</p>
                 {item.date && <p className="mt-1 text-muted">{item.date}</p>}
+                {item.logos && (
+                  <div className="mt-4 flex flex-wrap gap-2 md:flex-col md:items-start">
+                    {item.logos.map((key) => (
+                      <img
+                        key={key}
+                        src={LOGOS[key]}
+                        alt={key}
+                        className="h-12 w-auto max-w-[10rem] rounded-sm bg-white p-1.5 object-contain"
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div>
@@ -70,14 +83,6 @@ export default function Journey() {
                         <img src={g.src} alt={g.alt} className="h-44 w-full rounded-sm border border-white/10 object-cover sm:h-52" loading="lazy" />
                         <figcaption className="mt-1.5 font-mono text-[11px] text-muted">{g.caption}</figcaption>
                       </figure>
-                    ))}
-                  </div>
-                )}
-
-                {item.logos && (
-                  <div className="mt-5 flex items-center gap-3">
-                    {item.logos.map((key) => (
-                      <img key={key} src={LOGOS[key]} alt={key} className="h-9 w-auto rounded-sm bg-white p-1 object-contain" />
                     ))}
                   </div>
                 )}

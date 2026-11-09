@@ -13,6 +13,8 @@ module.exports = {
           700: "#222a40",
         },
         paper: "#e6edf7",
+        // jaune "signal" réservé au bloc Contact
+        signal: "#f9c80e",
         muted: "#8f9bb0",
         // couleurs d'accent définies dans index.css (:root), faciles à changer
         accent: {
